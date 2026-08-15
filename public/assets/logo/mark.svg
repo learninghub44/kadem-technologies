@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" role="img" aria-label="Kadem Technologies">
+  <rect width="40" height="40" rx="10" fill="#1B4B8F"/>
+  <path d="M20 30a10 10 0 1 0 0-20" stroke="#E08A34" stroke-width="2.4" fill="none" stroke-linecap="round" opacity="0.9"/>
+  <path d="M20 25.5a5.5 5.5 0 1 0 0-11" stroke="#FFFFFF" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <circle cx="20" cy="20" r="2.6" fill="#FFFFFF"/>
+</svg>

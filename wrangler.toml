@@ -1,0 +1,29 @@
+name = "kadem-technologies"
+main = "worker/index.js"
+compatibility_date = "2025-01-01"
+
+# Serves everything in /public as static assets. Requests that don't
+# match a static file fall through to the Worker's fetch handler,
+# which is where /api/ai and /api/contact are implemented.
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# Custom domain — attach christech.co.ke to this Worker from the
+# Cloudflare dashboard (Workers & Pages > kadem-technologies > Domains),
+# or uncomment and configure a route below once the zone is on Cloudflare.
+# [[routes]]
+# pattern = "christech.co.ke/*"
+# zone_name = "christech.co.ke"
+
+# Optional KV namespace for the contact/AI rate limiter.
+# Create with: wrangler kv namespace create RATE_LIMIT_KV
+# then paste the returned id below.
+# [[kv_namespaces]]
+# binding = "RATE_LIMIT_KV"
+# id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+# Non-secret config vars go here. Secrets (API keys) must be set with
+# `wrangler secret put <NAME>` — never committed to this file or to git.
+[vars]
+ALLOWED_ORIGIN = "https://christech.co.ke"

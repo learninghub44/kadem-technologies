@@ -1,0 +1,15 @@
+{
+  "name": "kadem-technologies-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kadem Technologies (christech.co.ke) — website and Cloudflare Worker backend.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "secret:groq": "wrangler secret put GROQ_API_KEY",
+    "secret:resend": "wrangler secret put RESEND_API_KEY"
+  },
+  "devDependencies": {
+    "wrangler": "^3.90.0"
+  }
+}

@@ -1,0 +1,184 @@
+/* ===========================================================
+   KADEM TECHNOLOGIES — ai.js
+   Kadem AI chat widget. Talks only to the same-origin
+   /api/ai endpoint. The Groq API key never appears here —
+   it is stored as a Cloudflare Worker secret (see worker/index.js).
+   =========================================================== */
+(function () {
+  'use strict';
+
+  var MAX_INPUT_LENGTH = 600;
+  var STORAGE_KEY = 'kadem-ai-history';
+
+  var panel = document.querySelector('[data-ai-panel]');
+  var openBtn = document.querySelector('[data-ai-open]');
+  var closeBtn = document.querySelector('[data-ai-close]');
+  var body = document.querySelector('[data-ai-body]');
+  var form = document.querySelector('[data-ai-form]');
+  var textarea = document.querySelector('[data-ai-input]');
+  var sendBtn = document.querySelector('[data-ai-send]');
+  var clearBtn = document.querySelector('[data-ai-clear]');
+  var suggestionsBox = document.querySelector('[data-ai-suggestions]');
+
+  if (!panel || !openBtn) return;
+
+  var SUGGESTIONS = [
+    'What services do you offer?',
+    'Do you provide web hosting?',
+    'I need a website.',
+    'I need a business system.',
+    'Tell me about your projects.',
+    'How can I contact Kadem Technologies?'
+  ];
+
+  var history = [];
+
+  function loadHistory() {
+    try {
+      var raw = sessionStorage.getItem(STORAGE_KEY);
+      history = raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      history = [];
+    }
+  }
+
+  function saveHistory() {
+    try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(history)); } catch (e) { /* ignore */ }
+  }
+
+  function renderMessage(role, text, isError) {
+    var el = document.createElement('div');
+    el.className = 'k-ai-msg ' + (isError ? 'k-ai-msg--error' : role === 'user' ? 'k-ai-msg--user' : 'k-ai-msg--bot');
+    el.textContent = text;
+    body.appendChild(el);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function renderSuggestions() {
+    if (!suggestionsBox) return;
+    suggestionsBox.innerHTML = SUGGESTIONS.map(function (s) {
+      return '<button type="button" class="k-ai-suggestion">' + s + '</button>';
+    }).join('');
+  }
+
+  function showTyping() {
+    var el = document.createElement('div');
+    el.className = 'k-ai-typing';
+    el.setAttribute('data-typing-indicator', '');
+    el.innerHTML = '<span></span><span></span><span></span>';
+    body.appendChild(el);
+    body.scrollTop = body.scrollHeight;
+    return el;
+  }
+
+  function renderAll() {
+    body.innerHTML = '';
+    if (!history.length) {
+      renderMessage('assistant', "Hello. I'm Kadem AI. How can I help you today?");
+    } else {
+      history.forEach(function (m) { renderMessage(m.role, m.content); });
+    }
+  }
+
+  function openPanel() {
+    panel.classList.add('is-open');
+    panel.setAttribute('aria-hidden', 'false');
+    openBtn.setAttribute('aria-expanded', 'true');
+    textarea.focus();
+  }
+  function closePanel() {
+    panel.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+    openBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  openBtn.addEventListener('click', function () {
+    panel.classList.contains('is-open') ? closePanel() : openPanel();
+  });
+  if (closeBtn) closeBtn.addEventListener('click', closePanel);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && panel.classList.contains('is-open')) closePanel();
+  });
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function () {
+      history = [];
+      saveHistory();
+      renderAll();
+    });
+  }
+
+  if (suggestionsBox) {
+    suggestionsBox.addEventListener('click', function (e) {
+      var btn = e.target.closest('.k-ai-suggestion');
+      if (!btn) return;
+      textarea.value = btn.textContent;
+      form.requestSubmit ? form.requestSubmit() : sendMessage();
+    });
+  }
+
+  function setSending(sending) {
+    sendBtn.disabled = sending;
+    textarea.disabled = sending;
+  }
+
+  function sendMessage() {
+    var text = textarea.value.trim();
+    if (!text) return;
+    if (text.length > MAX_INPUT_LENGTH) {
+      renderMessage('assistant', 'That message is a little long — please keep it under ' + MAX_INPUT_LENGTH + ' characters.', true);
+      return;
+    }
+
+    history.push({ role: 'user', content: text });
+    renderMessage('user', text);
+    saveHistory();
+    textarea.value = '';
+    setSending(true);
+    var typingEl = showTyping();
+
+    fetch('/api/ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: history.slice(-12) })
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error('ai_request_failed');
+        return res.json();
+      })
+      .then(function (data) {
+        var reply = (data && data.reply) || 'I do not have that information right now — please contact Kadem Technologies directly on WhatsApp at +254 701 059 192 or email support@christech.co.ke.';
+        history.push({ role: 'assistant', content: reply });
+        saveHistory();
+        typingEl.remove();
+        renderMessage('assistant', reply);
+      })
+      .catch(function () {
+        typingEl.remove();
+        renderMessage('assistant', 'Kadem AI is temporarily unavailable. Please contact Kadem Technologies directly on WhatsApp at +254 701 059 192 or email support@christech.co.ke.', true);
+      })
+      .finally(function () {
+        setSending(false);
+        textarea.focus();
+      });
+  }
+
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      sendMessage();
+    });
+  }
+  if (textarea) {
+    textarea.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  }
+
+  loadHistory();
+  renderAll();
+  renderSuggestions();
+})();

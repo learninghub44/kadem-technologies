@@ -1,0 +1,281 @@
+#!/usr/bin/env python3
+"""
+Assembles the static Kadem Technologies site.
+Reads header/footer/widget templates + per-page content fragments,
+and writes complete HTML files into /public. This script is a
+build-time convenience only — the output is plain static HTML/CSS/JS
+with no server-side templating at runtime.
+"""
+import os
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CONTENT_DIR = os.path.join(ROOT, "build", "content")
+PUBLIC_DIR = os.path.join(ROOT, "public")
+
+NAV_ITEMS = [
+    ("index", "Home", "index.html"),
+    ("services", "Services", "services.html"),
+    ("solutions", "Solutions", "solutions.html"),
+    ("hosting", "Hosting", "hosting.html"),
+    ("projects", "Projects", "projects.html"),
+    ("about", "About", "about.html"),
+    ("contact", "Contact", "contact.html"),
+]
+
+def nav_html(active_key, mobile=False):
+    items = []
+    for key, label, href in NAV_ITEMS:
+        current = ' aria-current="page"' if key == active_key else ''
+        items.append(f'<li><a class="k-nav__link" href="/{href}"{current}>{label}</a></li>' if not mobile
+                      else f'<li><a href="/{href}"{current}>{label}</a></li>')
+    return "\n        ".join(items)
+
+def header_html(active_key):
+    return f"""
+  <a class="k-skip-link" href="#main">Skip to content</a>
+  <header class="k-header" data-header>
+    <div class="container k-header__bar">
+      <a class="k-brand" href="/index.html" aria-label="Kadem Technologies home">
+        <img class="k-brand__mark" src="/assets/logo/mark.svg" alt="" width="34" height="34">
+        <span>Kadem Technologies<small>christech.co.ke</small></span>
+      </a>
+      <nav class="k-nav" aria-label="Primary">
+        <ul class="k-nav__list">
+        {nav_html(active_key)}
+        </ul>
+      </nav>
+      <div class="k-header__actions">
+        <button type="button" class="k-theme-toggle" aria-pressed="false" aria-label="Switch to dark mode">
+          <svg class="k-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2.4M12 19.1v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"></path></svg>
+          <svg class="k-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M20 14.5a8.5 8.5 0 1 1-9-11.9 7 7 0 0 0 9 11.9Z"></path></svg>
+        </button>
+        <a class="k-btn k-btn--primary k-btn--sm" href="/contact.html">Get Started</a>
+        <button type="button" class="k-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="k-mobile-nav" id="mobile-nav">
+    <ul class="k-mobile-nav__list">
+    {nav_html(active_key, mobile=True)}
+    </ul>
+    <a class="k-btn k-btn--primary k-btn--block k-mobile-nav__cta" href="/contact.html">Get Started</a>
+  </div>
+""".rstrip("\n")
+
+FOOTER_HTML = """
+  <footer class="k-footer">
+    <div class="container">
+      <div class="k-footer__grid">
+        <div class="k-footer__brand">
+          <a class="k-brand" href="/index.html" aria-label="Kadem Technologies home">
+            <img class="k-brand__mark" src="/assets/logo/mark.svg" alt="" width="34" height="34">
+            <span>Kadem Technologies</span>
+          </a>
+          <p>Professional digital services, software solutions, web hosting and technology support for businesses in Kenya and beyond.</p>
+        </div>
+        <div class="k-footer__col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/services.html">Services</a></li>
+            <li><a href="/projects.html">Projects</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="k-footer__col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/hosting.html">Web Hosting</a></li>
+            <li><a href="/services.html#website-development">Website Development</a></li>
+            <li><a href="/services.html#web-applications">Web Applications</a></li>
+            <li><a href="/services.html#e-commerce">E-Commerce</a></li>
+            <li><a href="/services.html#business-systems">Business Systems</a></li>
+            <li><a href="/services.html#ai-automation">AI &amp; Automation</a></li>
+            <li><a href="/services.html#third-party-solutions">Third-Party Solutions</a></li>
+          </ul>
+        </div>
+        <div class="k-footer__col k-footer__col--support">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="/services.html#website-maintenance">Maintenance</a></li>
+            <li><a href="/services.html#technical-support">Technical Support</a></li>
+            <li><a href="/hosting.html">Hosting Support</a></li>
+          </ul>
+          <h4 style="margin-top:24px;">Contact</h4>
+          <ul>
+            <li><a href="tel:+254701059192">+254 701 059 192</a></li>
+            <li><a href="mailto:support@christech.co.ke">support@christech.co.ke</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="k-footer__bottom">
+        <span>&copy; 2026 Kadem Technologies. All rights reserved.</span>
+        <div class="k-footer__legal">
+          <a href="/privacy.html">Privacy Policy</a>
+          <a href="/terms.html">Terms &amp; Conditions</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+""".rstrip("\n")
+
+WIDGETS_HTML = """
+  <div class="k-float-whatsapp">
+    <a class="k-float-whatsapp__btn" data-whatsapp-link href="#" target="_blank" rel="noopener noreferrer" aria-label="Chat with Kadem Technologies on WhatsApp">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.02 3C9.1 3 3.48 8.6 3.48 15.5c0 2.4.66 4.63 1.8 6.55L3 29l7.14-2.24a12.5 12.5 0 0 0 5.88 1.48h.01c6.92 0 12.54-5.6 12.54-12.5C28.57 8.6 22.95 3 16.02 3Zm0 22.7h-.01a10.4 10.4 0 0 1-5.3-1.45l-.38-.22-4.24 1.33 1.36-4.11-.25-.42a10.2 10.2 0 0 1-1.58-5.33c0-5.66 4.63-10.27 10.4-10.27 2.78 0 5.39 1.08 7.35 3.04a10.15 10.15 0 0 1 3.05 7.24c0 5.67-4.63 10.19-10.4 10.19Zm5.7-7.64c-.31-.16-1.85-.91-2.14-1.02-.29-.1-.5-.16-.71.16-.21.31-.81 1.02-1 1.23-.18.21-.37.23-.68.08-.31-.16-1.32-.49-2.5-1.55-.93-.83-1.55-1.85-1.74-2.16-.18-.31-.02-.48.14-.63.14-.14.31-.37.47-.55.16-.19.21-.32.31-.53.1-.21.05-.4-.03-.55-.08-.16-.71-1.72-.98-2.36-.26-.62-.52-.54-.71-.55h-.6c-.21 0-.55.08-.84.4-.29.31-1.1 1.08-1.1 2.63s1.13 3.05 1.29 3.26c.16.21 2.22 3.4 5.39 4.77.75.32 1.34.52 1.8.66.76.24 1.44.21 1.99.13.61-.09 1.85-.76 2.11-1.49.26-.73.26-1.36.18-1.49-.08-.13-.28-.21-.59-.36Z"/></svg>
+    </a>
+    <span class="k-float-whatsapp__tip">Chat with Kadem Technologies</span>
+  </div>
+
+  <div class="k-float-ai">
+    <button type="button" class="k-float-ai__btn" data-ai-open aria-expanded="false" aria-controls="kadem-ai-panel" aria-label="Open Kadem AI assistant">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v10H9l-4.5 3.5v-3.5H4v-10Z"></path><path d="M8 9.5h8"></path><path d="M8 12.5h5"></path></svg>
+    </button>
+  </div>
+
+  <section class="k-ai-panel" id="kadem-ai-panel" data-ai-panel role="dialog" aria-label="Kadem AI assistant" aria-hidden="true">
+    <header class="k-ai-panel__header">
+      <img class="k-ai-panel__mark" src="/assets/logo/mark.svg" alt="" width="30" height="30">
+      <div class="k-ai-panel__title">
+        <strong>Kadem AI</strong>
+        <span>Kadem Technologies Assistant</span>
+      </div>
+      <button type="button" class="k-ai-panel__close" data-ai-close aria-label="Close Kadem AI">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"></line><line x1="19" y1="5" x2="5" y2="19"></line></svg>
+      </button>
+    </header>
+    <div class="k-ai-panel__body" data-ai-body aria-live="polite"></div>
+    <div class="k-ai-suggestions" data-ai-suggestions></div>
+    <form class="k-ai-panel__footer" data-ai-form>
+      <label class="sr-only" for="kadem-ai-input" style="position:absolute;left:-9999px;">Message Kadem AI</label>
+      <textarea id="kadem-ai-input" data-ai-input rows="1" maxlength="600" placeholder="Ask about our services..."></textarea>
+      <button type="submit" class="k-ai-send" data-ai-send aria-label="Send message">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 3 10.5l7.5 3L14 20l7-17Z"></path></svg>
+      </button>
+    </form>
+    <button type="button" class="k-ai-panel__clear" data-ai-clear>Clear conversation</button>
+  </section>
+
+  <script src="/js/whatsapp.js" defer></script>
+  <script src="/js/ai.js" defer></script>
+""".rstrip("\n")
+
+def page_shell(title, description, canonical_path, active_key, content, extra_head="", extra_scripts=""):
+    canonical = f"https://christech.co.ke{canonical_path}"
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content="{description}">
+  <link rel="canonical" href="{canonical}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{title}">
+  <meta property="og:description" content="{description}">
+  <meta property="og:url" content="{canonical}">
+  <meta property="og:site_name" content="Kadem Technologies">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{title}">
+  <meta name="twitter:description" content="{description}">
+  <link rel="icon" type="image/svg+xml" href="/assets/logo/mark.svg">
+  <link rel="apple-touch-icon" href="/assets/logo/mark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  {extra_head}
+</head>
+<body>
+{header_html(active_key)}
+  <main id="main">
+{content}
+  </main>
+{FOOTER_HTML}
+{WIDGETS_HTML}
+  <script src="/js/projects.js" defer></script>
+  <script src="/js/main.js" defer></script>
+  {extra_scripts}
+</body>
+</html>
+"""
+
+PAGES = [
+    dict(key="index", file="index.html",
+         title="Kadem Technologies | Digital Solutions & Technology Services",
+         desc="Kadem Technologies provides professional web development, software, hosting and AI-driven digital solutions for businesses in Kenya."),
+    dict(key="services", file="services.html",
+         title="Services | Kadem Technologies",
+         desc="Explore Kadem Technologies' full range of digital services — hosting, website development, web applications, e-commerce, business systems and more."),
+    dict(key="solutions", file="solutions.html",
+         title="Solutions | Kadem Technologies",
+         desc="Digital solutions from Kadem Technologies for modern businesses — websites, e-commerce, management systems, platforms and integrations."),
+    dict(key="hosting", file="hosting.html",
+         title="Web Hosting | Kadem Technologies",
+         desc="Reliable web hosting and technical support from Kadem Technologies to keep your website and applications online."),
+    dict(key="projects", file="projects.html",
+         title="Our Projects | Kadem Technologies",
+         desc="Browse digital products, websites and business systems delivered by Kadem Technologies."),
+    dict(key="about", file="about.html",
+         title="About Us | Kadem Technologies",
+         desc="Learn about Kadem Technologies, the story behind Chris Tech, our founder, and our approach to digital solutions."),
+    dict(key="contact", file="contact.html",
+         title="Contact Us | Kadem Technologies",
+         desc="Get in touch with Kadem Technologies for your next website, application or digital solution."),
+    dict(key="privacy", file="privacy.html",
+         title="Privacy Policy | Kadem Technologies",
+         desc="Kadem Technologies' privacy policy covering how we collect, use and protect information."),
+    dict(key="terms", file="terms.html",
+         title="Terms & Conditions | Kadem Technologies",
+         desc="Terms and conditions for using the Kadem Technologies website and services."),
+]
+
+def main():
+    os.makedirs(PUBLIC_DIR, exist_ok=True)
+    for page in PAGES:
+        content_path = os.path.join(CONTENT_DIR, page["file"])
+        with open(content_path, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        extra_head = ""
+        extra_scripts = ""
+        if page["key"] == "index":
+            extra_head = ORG_JSONLD
+        if page["key"] == "contact":
+            extra_scripts = '<script src="/js/contact.js" defer></script>'
+
+        html = page_shell(
+            title=page["title"],
+            description=page["desc"],
+            canonical_path="/" if page["key"] == "index" else f"/{page['file']}",
+            active_key=page["key"],
+            content=content,
+            extra_head=extra_head,
+            extra_scripts=extra_scripts,
+        )
+        out_path = os.path.join(PUBLIC_DIR, page["file"])
+        with open(out_path, "w", encoding="utf-8") as f:
+            f.write(html)
+        print("wrote", out_path)
+
+ORG_JSONLD = """<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Kadem Technologies",
+  "alternateName": "Chris Tech",
+  "url": "https://christech.co.ke",
+  "logo": "https://christech.co.ke/assets/logo/mark.svg",
+  "email": "support@christech.co.ke",
+  "telephone": "+254701059192",
+  "sameAs": []
+}
+</script>"""
+
+if __name__ == "__main__":
+    main()
