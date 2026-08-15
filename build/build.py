@@ -36,7 +36,7 @@ def header_html(active_key):
   <header class="k-header" data-header>
     <div class="container k-header__bar">
       <a class="k-brand" href="/index.html" aria-label="Kadem Technologies home">
-        <img class="k-brand__mark" src="/assets/logo/mark.svg" alt="" width="34" height="34">
+        <img class="k-brand__mark" src="/assets/logo/mark.png" alt="" width="34" height="34">
         <span>Kadem Technologies<small>christech.co.ke</small></span>
       </a>
       <nav class="k-nav" aria-label="Primary">
@@ -70,7 +70,7 @@ FOOTER_HTML = """
       <div class="k-footer__grid">
         <div class="k-footer__brand">
           <a class="k-brand" href="/index.html" aria-label="Kadem Technologies home">
-            <img class="k-brand__mark" src="/assets/logo/mark.svg" alt="" width="34" height="34">
+            <img class="k-brand__mark" src="/assets/logo/mark.png" alt="" width="34" height="34">
             <span>Kadem Technologies</span>
           </a>
           <p>Professional digital services, software solutions, web hosting and technology support for businesses in Kenya and beyond.</p>
@@ -132,12 +132,13 @@ WIDGETS_HTML = """
   <div class="k-float-ai">
     <button type="button" class="k-float-ai__btn" data-ai-open aria-expanded="false" aria-controls="kadem-ai-panel" aria-label="Open Kadem AI assistant">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v10H9l-4.5 3.5v-3.5H4v-10Z"></path><path d="M8 9.5h8"></path><path d="M8 12.5h5"></path></svg>
+      <span class="k-float-ai__dot" data-ai-dot aria-hidden="true"></span>
     </button>
   </div>
 
   <section class="k-ai-panel" id="kadem-ai-panel" data-ai-panel role="dialog" aria-label="Kadem AI assistant" aria-hidden="true">
     <header class="k-ai-panel__header">
-      <img class="k-ai-panel__mark" src="/assets/logo/mark.svg" alt="" width="30" height="30">
+      <img class="k-ai-panel__mark" src="/assets/logo/mark.png" alt="" width="30" height="30">
       <div class="k-ai-panel__title">
         <strong>Kadem AI</strong>
         <span>Kadem Technologies Assistant</span>
@@ -185,8 +186,8 @@ def page_shell(title, description, canonical_path, active_key, content, extra_he
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{title}">
   <meta name="twitter:description" content="{description}">
-  <link rel="icon" type="image/svg+xml" href="/assets/logo/mark.svg">
-  <link rel="apple-touch-icon" href="/assets/logo/mark.svg">
+  <link rel="icon" type="image/png" href="/assets/logo/favicon-32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
@@ -275,7 +276,7 @@ ORG_JSONLD = """<script type="application/ld+json">
   "name": "Kadem Technologies",
   "alternateName": "Chris Tech",
   "url": "https://christech.co.ke",
-  "logo": "https://christech.co.ke/assets/logo/mark.svg",
+  "logo": "https://christech.co.ke/assets/logo/mark.png",
   "email": "support@christech.co.ke",
   "telephone": "+254701059192",
   "sameAs": []

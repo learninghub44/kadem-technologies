@@ -53,12 +53,14 @@
       var isOpen = mobileNav.classList.toggle('is-open');
       menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       document.body.style.overflow = isOpen ? 'hidden' : '';
+      if (header) header.classList.toggle('is-nav-open', isOpen);
     });
     mobileNav.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', function () {
         mobileNav.classList.remove('is-open');
         menuToggle.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
+        if (header) header.classList.remove('is-nav-open');
       });
     });
     document.addEventListener('keydown', function (e) {
@@ -66,6 +68,7 @@
         mobileNav.classList.remove('is-open');
         menuToggle.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
+        if (header) header.classList.remove('is-nav-open');
         menuToggle.focus();
       }
     });

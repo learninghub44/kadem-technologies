@@ -21,8 +21,41 @@
   var sendBtn = document.querySelector('[data-ai-send]');
   var clearBtn = document.querySelector('[data-ai-clear]');
   var suggestionsBox = document.querySelector('[data-ai-suggestions]');
+  var notifyDot = document.querySelector('[data-ai-dot]');
 
   if (!panel || !openBtn) return;
+
+  /* ---------- Sound (tiny synthesized pop, no audio file needed) ---------- */
+  var audioCtx = null;
+  function playPop(freq, delay) {
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      var t = audioCtx.currentTime + (delay || 0);
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(0.18, t + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(t);
+      osc.stop(t + 0.18);
+    } catch (e) { /* audio unavailable — fail silently */ }
+  }
+  function playOpenSound() { playPop(720); }
+  function playReplySound() { playPop(880); }
+
+  /* ---------- Attention dot on the floating button ---------- */
+  if (notifyDot && !sessionStorage.getItem('kadem-ai-dot-seen')) {
+    setTimeout(function () { notifyDot.classList.add('is-visible'); }, 1800);
+  }
+  function dismissDot() {
+    if (!notifyDot) return;
+    notifyDot.classList.remove('is-visible');
+    try { sessionStorage.setItem('kadem-ai-dot-seen', '1'); } catch (e) { /* ignore */ }
+  }
 
   var SUGGESTIONS = [
     'What services do you offer?',
@@ -102,6 +135,8 @@
     panel.setAttribute('aria-hidden', 'false');
     openBtn.setAttribute('aria-expanded', 'true');
     textarea.focus();
+    playOpenSound();
+    dismissDot();
   }
   function closePanel() {
     panel.classList.remove('is-open');
@@ -192,10 +227,12 @@
         saveHistory();
         typingEl.remove();
         renderMessage('assistant', reply);
+        playReplySound();
       })
       .catch(function () {
         typingEl.remove();
         renderMessage('assistant', 'Kadem AI is temporarily unavailable. Please contact Kadem Technologies directly on WhatsApp at +254 701 059 192 or email support@christech.co.ke.', true);
+        playReplySound();
       })
       .finally(function () {
         setSending(false);
