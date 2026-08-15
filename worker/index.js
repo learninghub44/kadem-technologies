@@ -118,13 +118,14 @@ async function handleAI(request, env) {
         Authorization: `Bearer ${env.GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        // llama-3.1-8b-instant was deprecated by Groq (shutdown Aug 16, 2026).
-        // openai/gpt-oss-20b is Groq's recommended replacement — fast and
-        // inexpensive, a good fit for a short-answer support assistant.
-        model: 'openai/gpt-oss-20b',
+        // openai/gpt-oss-20b is a reasoning model — it can silently return
+        // empty `content` when its token budget gets consumed by internal
+        // reasoning before it writes the actual answer. For a straightforward
+        // support assistant, a non-reasoning model is more reliable.
+        model: 'llama-3.3-70b-versatile',
         messages: groqMessages,
         temperature: 0.4,
-        max_tokens: 400
+        max_completion_tokens: 500
       }),
       // Guard against a hung upstream request.
       signal: AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined
@@ -138,9 +139,11 @@ async function handleAI(request, env) {
     }
 
     const data = await groqRes.json();
-    const reply = data?.choices?.[0]?.message?.content?.trim();
+    const reply = data?.choices?.[0]?.message?.content?.trim()
+      || data?.choices?.[0]?.message?.reasoning?.trim();
 
     if (!reply) {
+      console.error('Groq returned no usable content', JSON.stringify(data).slice(0, 500));
       return jsonResponse({ error: 'empty_reply' }, 502, cors);
     }
 

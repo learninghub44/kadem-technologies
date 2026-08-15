@@ -4,8 +4,7 @@
 
 @media (max-width: 1080px) {
   .k-grid--4 { grid-template-columns: repeat(3, 1fr); }
-  .k-footer__grid { grid-template-columns: 1.2fr 1fr 1fr; }
-  .k-footer__grid .k-footer__col--support { display: none; }
+  .k-footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--k-space-6); }
 }
 
 @media (max-width: 900px) {
