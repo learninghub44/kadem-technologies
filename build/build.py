@@ -17,6 +17,7 @@ NAV_ITEMS = [
     ("services", "Services", "services.html"),
     ("solutions", "Solutions", "solutions.html"),
     ("hosting", "Hosting", "hosting.html"),
+    ("academy", "Academy", "https://academy.christech.co.ke"),
     ("projects", "Projects", "projects.html"),
     ("about", "About", "about.html"),
     ("contact", "Contact", "contact.html"),
@@ -25,9 +26,12 @@ NAV_ITEMS = [
 def nav_html(active_key, mobile=False):
     items = []
     for key, label, href in NAV_ITEMS:
+        external = href.startswith("http")
         current = ' aria-current="page"' if key == active_key else ''
-        items.append(f'<li><a class="k-nav__link" href="/{href}"{current}>{label}</a></li>' if not mobile
-                      else f'<li><a href="/{href}"{current}>{label}</a></li>')
+        extra = ' target="_blank" rel="noopener noreferrer"' if external else ''
+        url = href if external else f"/{href}"
+        cls = ' class="k-nav__link"' if not mobile else ''
+        items.append(f'<li><a{cls} href="{url}"{current}{extra}>{label}</a></li>')
     return "\n        ".join(items)
 
 def header_html(active_key):
@@ -80,6 +84,7 @@ FOOTER_HTML = """
           <ul>
             <li><a href="/about.html">About</a></li>
             <li><a href="/services.html">Services</a></li>
+            <li><a href="https://academy.christech.co.ke" target="_blank" rel="noopener noreferrer">Kadem Academy</a></li>
             <li><a href="/projects.html">Projects</a></li>
             <li><a href="/contact.html">Contact</a></li>
           </ul>
