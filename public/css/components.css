@@ -296,6 +296,31 @@
 .k-service-card:hover .k-link-arrow, .k-service-card:focus-within .k-link-arrow { color: #fff; }
 .k-service-card:hover .k-link-arrow svg, .k-service-card:focus-within .k-link-arrow svg { transform: translateX(4px); }
 
+/* ---------- Avatar (service/team photos with graceful fallback) ---------- */
+.k-avatar {
+  position: relative;
+  border-radius: 50%;
+  background: var(--k-primary-soft);
+  border: 1px solid var(--k-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: border-color var(--k-duration) var(--k-ease);
+}
+.k-avatar__placeholder { width: 44%; height: 44%; color: var(--k-primary); opacity: 0.45; }
+.k-avatar img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.k-avatar--service { width: 52px; height: 52px; margin-bottom: var(--k-space-4); }
+.k-service-card:hover .k-avatar--service,
+.k-service-card:focus-within .k-avatar--service { border-color: rgba(255,255,255,0.6); }
+
 /* ---------- Benefit card (Why Kadem) ---------- */
 .k-benefit-card { text-align: left; }
 .k-benefit-card__icon {
@@ -431,6 +456,14 @@
 }
 .k-founder__photo img { width: 100%; height: 100%; object-fit: cover; }
 .k-founder__photo-placeholder { color: var(--k-primary); opacity: 0.5; width: 40%; }
+.k-founder__photo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.k-founder__photo { position: relative; }
 .k-founder__role {
   font-family: var(--k-font-mono);
   font-size: var(--k-text-sm);
@@ -471,6 +504,37 @@
   border-radius: var(--k-radius-md);
   padding: var(--k-space-5);
   background: var(--k-surface);
+}
+.k-hosting-price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--k-space-3);
+  padding: var(--k-space-3) var(--k-space-5);
+  border-radius: var(--k-radius-full);
+  background: var(--k-primary-soft);
+  margin-bottom: var(--k-space-5);
+}
+.k-hosting-price__label {
+  font-family: var(--k-font-mono);
+  font-size: var(--k-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--k-primary-strong);
+  font-weight: 600;
+}
+.k-hosting-price__amount {
+  font-family: var(--k-font-display);
+  font-size: var(--k-text-2xl);
+  font-weight: 800;
+  color: var(--k-primary);
+}
+.k-hosting-price__period {
+  font-size: var(--k-text-sm);
+  font-weight: 500;
+  color: var(--k-ink-soft);
+}
+@media (max-width: 640px) {
+  .k-hosting-price { display: flex; flex-wrap: wrap; }
 }
 
 /* ---------- FAQ ---------- */
