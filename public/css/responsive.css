@@ -21,6 +21,7 @@
   .k-founder { grid-template-columns: 1fr; }
   .k-founder__photo { max-width: 320px; margin-inline: auto; }
   .k-contact-layout { grid-template-columns: 1fr; }
+  .k-integration-split { grid-template-columns: 1fr; }
   .k-footer__grid { grid-template-columns: 1fr 1fr; }
   .k-footer__brand { grid-column: 1 / -1; }
 }

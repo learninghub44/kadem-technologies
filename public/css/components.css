@@ -643,6 +643,17 @@
   gap: var(--k-space-8);
   align-items: start;
 }
+.k-integration-split { grid-template-columns: 1fr 1fr; }
+.k-hosting-teaser {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--k-space-6);
+}
+@media (max-width: 640px) {
+  .k-hosting-teaser { grid-template-columns: 1fr; text-align: center; }
+  .k-hosting-teaser .k-btn { width: 100%; }
+}
 .k-contact-info-item {
   display: flex;
   gap: var(--k-space-4);
