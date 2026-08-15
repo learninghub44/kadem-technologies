@@ -743,6 +743,7 @@
 @keyframes k-typing { 0%, 60%, 100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
 
 .k-ai-suggestions { display: flex; flex-direction: column; gap: 8px; padding: 0 var(--k-space-4) var(--k-space-3); }
+.k-ai-suggestions[hidden] { display: none; }
 .k-ai-suggestion {
   text-align: left;
   border: 1px solid var(--k-border-strong);

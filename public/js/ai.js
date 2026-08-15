@@ -58,9 +58,23 @@
 
   function renderSuggestions() {
     if (!suggestionsBox) return;
+    if (history.length) {
+      // Conversation already has messages — don't show starter prompts,
+      // they were sitting below the chat log and hiding replies.
+      suggestionsBox.hidden = true;
+      suggestionsBox.innerHTML = '';
+      return;
+    }
+    suggestionsBox.hidden = false;
     suggestionsBox.innerHTML = SUGGESTIONS.map(function (s) {
       return '<button type="button" class="k-ai-suggestion">' + s + '</button>';
     }).join('');
+  }
+
+  function hideSuggestions() {
+    if (!suggestionsBox) return;
+    suggestionsBox.hidden = true;
+    suggestionsBox.innerHTML = '';
   }
 
   function showTyping() {
@@ -137,6 +151,7 @@
       var btn = e.target.closest('.k-ai-suggestion');
       if (!btn) return;
       textarea.value = btn.textContent;
+      hideSuggestions();
       form.requestSubmit ? form.requestSubmit() : sendMessage();
     });
   }
@@ -154,6 +169,7 @@
       return;
     }
 
+    hideSuggestions();
     history.push({ role: 'user', content: text });
     renderMessage('user', text);
     saveHistory();
