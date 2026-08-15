@@ -187,7 +187,7 @@ def page_shell(title, description, canonical_path, active_key, content, extra_he
   <meta name="twitter:title" content="{title}">
   <meta name="twitter:description" content="{description}">
   <link rel="icon" type="image/png" href="/assets/logo/favicon-32.png">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="apple-touch-icon" href="/assets/logo/favicon-32.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
