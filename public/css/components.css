@@ -659,9 +659,9 @@
   right: var(--k-space-5);
   bottom: calc(var(--k-space-5) + 74px);
   width: 380px;
-  max-width: calc(100vw - 2 * var(--k-space-5));
+  max-width: min(380px, calc(100vw - 2 * var(--k-space-5)));
   height: 560px;
-  max-height: calc(100vh - 140px);
+  max-height: min(560px, calc(100dvh - 148px));
   background: var(--k-surface);
   border: 1px solid var(--k-border);
   border-radius: var(--k-radius-lg);
@@ -674,9 +674,19 @@
   transform: translateY(12px) scale(0.98);
   visibility: hidden;
   pointer-events: none;
-  transition: opacity var(--k-duration) var(--k-ease), transform var(--k-duration) var(--k-ease), visibility var(--k-duration);
+  transition: opacity var(--k-duration) var(--k-ease), transform var(--k-duration) var(--k-ease), visibility var(--k-duration), height var(--k-duration) var(--k-ease), max-height var(--k-duration) var(--k-ease);
 }
 .k-ai-panel.is-open { opacity: 1; transform: translateY(0) scale(1); visibility: visible; pointer-events: auto; }
+
+/* Minimized: collapses to just the header bar, docked bottom-right. */
+.k-ai-panel.is-minimized {
+  height: auto;
+  max-height: none;
+  border-radius: var(--k-radius-full);
+}
+.k-ai-panel.is-minimized .k-ai-panel__content { display: none; }
+.k-ai-panel.is-minimized .k-ai-panel__header { cursor: pointer; }
+.k-ai-panel.is-minimized .k-ai-panel__minimize { display: none; }
 
 .k-ai-panel__header {
   display: flex;
@@ -690,13 +700,22 @@
 .k-ai-panel__title { flex: 1; }
 .k-ai-panel__title strong { display: block; font-family: var(--k-font-display); }
 .k-ai-panel__title span { display: block; font-size: 11px; opacity: 0.75; }
-.k-ai-panel__close {
+.k-ai-panel__close,
+.k-ai-panel__minimize {
   background: none; border: none; color: #fff; cursor: pointer;
   width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
   border-radius: var(--k-radius-sm);
+  flex-shrink: 0;
 }
-.k-ai-panel__close:hover { background: rgba(255,255,255,0.15); }
-.k-ai-panel__close svg { width: 18px; height: 18px; }
+.k-ai-panel__close:hover, .k-ai-panel__minimize:hover { background: rgba(255,255,255,0.15); }
+.k-ai-panel__close svg, .k-ai-panel__minimize svg { width: 18px; height: 18px; }
+
+.k-ai-panel__content {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
 
 .k-ai-panel__body {
   flex: 1;

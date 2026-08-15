@@ -111,7 +111,7 @@ FOOTER_HTML = """
         </div>
       </div>
       <div class="k-footer__bottom">
-        <span>&copy; 2026 Kadem Technologies. All rights reserved.</span>
+        <span>&copy; 2026 Kadem Technologies. All rights reserved. Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer">Icons8</a>.</span>
         <div class="k-footer__legal">
           <a href="/privacy.html">Privacy Policy</a>
           <a href="/terms.html">Terms &amp; Conditions</a>
@@ -142,20 +142,25 @@ WIDGETS_HTML = """
         <strong>Kadem AI</strong>
         <span>Kadem Technologies Assistant</span>
       </div>
+      <button type="button" class="k-ai-panel__minimize" data-ai-minimize aria-label="Minimize Kadem AI">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      </button>
       <button type="button" class="k-ai-panel__close" data-ai-close aria-label="Close Kadem AI">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"></line><line x1="19" y1="5" x2="5" y2="19"></line></svg>
       </button>
     </header>
-    <div class="k-ai-panel__body" data-ai-body aria-live="polite"></div>
-    <div class="k-ai-suggestions" data-ai-suggestions></div>
-    <form class="k-ai-panel__footer" data-ai-form>
-      <label class="sr-only" for="kadem-ai-input" style="position:absolute;left:-9999px;">Message Kadem AI</label>
-      <textarea id="kadem-ai-input" data-ai-input rows="1" maxlength="600" placeholder="Ask about our services..."></textarea>
-      <button type="submit" class="k-ai-send" data-ai-send aria-label="Send message">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 3 10.5l7.5 3L14 20l7-17Z"></path></svg>
-      </button>
-    </form>
-    <button type="button" class="k-ai-panel__clear" data-ai-clear>Clear conversation</button>
+    <div class="k-ai-panel__content" data-ai-content>
+      <div class="k-ai-panel__body" data-ai-body aria-live="polite"></div>
+      <div class="k-ai-suggestions" data-ai-suggestions></div>
+      <form class="k-ai-panel__footer" data-ai-form>
+        <label class="sr-only" for="kadem-ai-input" style="position:absolute;left:-9999px;">Message Kadem AI</label>
+        <textarea id="kadem-ai-input" data-ai-input rows="1" maxlength="600" placeholder="Ask about our services..."></textarea>
+        <button type="submit" class="k-ai-send" data-ai-send aria-label="Send message">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 3 10.5l7.5 3L14 20l7-17Z"></path></svg>
+        </button>
+      </form>
+      <button type="button" class="k-ai-panel__clear" data-ai-clear>Clear conversation</button>
+    </div>
   </section>
 
   <script src="/js/whatsapp.js" defer></script>
@@ -184,7 +189,7 @@ def page_shell(title, description, canonical_path, active_key, content, extra_he
   <link rel="apple-touch-icon" href="/assets/logo/mark.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/global.css">
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/responsive.css">

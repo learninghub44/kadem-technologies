@@ -29,9 +29,9 @@
   --k-on-accent: #171008;
 
   /* ---- Typography ---- */
-  --k-font-display: 'Manrope', 'Segoe UI', sans-serif;
-  --k-font-body: 'Inter', 'Segoe UI', sans-serif;
-  --k-font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --k-font-display: 'DM Sans', 'Segoe UI', sans-serif;
+  --k-font-body: 'DM Sans', 'Segoe UI', sans-serif;
+  --k-font-mono: 'DM Sans', 'Segoe UI', sans-serif;
 
   /* ---- Type scale ---- */
   --k-text-xs: 0.75rem;

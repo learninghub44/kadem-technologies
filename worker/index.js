@@ -73,12 +73,11 @@ export default {
    /api/ai — secure Groq proxy
    ================================================================ */
 async function handleAI(request, env) {
-  if (request.method !== 'POST') {
-    return jsonResponse({ error: 'method_not_allowed' }, 405);
-  }
-
   const cors = corsHeaders(request, env);
   if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
+  if (request.method !== 'POST') {
+    return jsonResponse({ error: 'method_not_allowed' }, 405, cors);
+  }
 
   const rateLimited = await isRateLimited(request, env, 'ai', 15, 60);
   if (rateLimited) {
@@ -119,7 +118,10 @@ async function handleAI(request, env) {
         Authorization: `Bearer ${env.GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        model: 'llama-3.1-8b-instant',
+        // llama-3.1-8b-instant was deprecated by Groq (shutdown Aug 16, 2026).
+        // openai/gpt-oss-20b is Groq's recommended replacement — fast and
+        // inexpensive, a good fit for a short-answer support assistant.
+        model: 'openai/gpt-oss-20b',
         messages: groqMessages,
         temperature: 0.4,
         max_tokens: 400
@@ -129,6 +131,9 @@ async function handleAI(request, env) {
     });
 
     if (!groqRes.ok) {
+      // Logged server-side only (visible in `wrangler tail`), never sent to the browser.
+      const errText = await groqRes.text().catch(() => '');
+      console.error('Groq API error', groqRes.status, errText);
       return jsonResponse({ error: 'upstream_error', message: 'Kadem AI could not process that right now.' }, 502, cors);
     }
 
@@ -149,12 +154,11 @@ async function handleAI(request, env) {
    /api/contact — validated, rate-limited enquiry delivery
    ================================================================ */
 async function handleContact(request, env) {
-  if (request.method !== 'POST') {
-    return jsonResponse({ error: 'method_not_allowed' }, 405);
-  }
-
   const cors = corsHeaders(request, env);
   if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
+  if (request.method !== 'POST') {
+    return jsonResponse({ error: 'method_not_allowed' }, 405, cors);
+  }
 
   const rateLimited = await isRateLimited(request, env, 'contact', 5, 300);
   if (rateLimited) {

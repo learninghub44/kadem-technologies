@@ -13,6 +13,8 @@
   var panel = document.querySelector('[data-ai-panel]');
   var openBtn = document.querySelector('[data-ai-open]');
   var closeBtn = document.querySelector('[data-ai-close]');
+  var minimizeBtn = document.querySelector('[data-ai-minimize]');
+  var header = document.querySelector('.k-ai-panel__header');
   var body = document.querySelector('[data-ai-body]');
   var form = document.querySelector('[data-ai-form]');
   var textarea = document.querySelector('[data-ai-input]');
@@ -82,22 +84,44 @@
 
   function openPanel() {
     panel.classList.add('is-open');
+    panel.classList.remove('is-minimized');
     panel.setAttribute('aria-hidden', 'false');
     openBtn.setAttribute('aria-expanded', 'true');
     textarea.focus();
   }
   function closePanel() {
     panel.classList.remove('is-open');
+    panel.classList.remove('is-minimized');
     panel.setAttribute('aria-hidden', 'true');
     openBtn.setAttribute('aria-expanded', 'false');
+  }
+  function minimizePanel() {
+    panel.classList.add('is-minimized');
+  }
+  function restorePanel() {
+    panel.classList.remove('is-minimized');
+    textarea.focus();
   }
 
   openBtn.addEventListener('click', function () {
     panel.classList.contains('is-open') ? closePanel() : openPanel();
   });
   if (closeBtn) closeBtn.addEventListener('click', closePanel);
+  if (minimizeBtn) {
+    minimizeBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      minimizePanel();
+    });
+  }
+  if (header) {
+    header.addEventListener('click', function () {
+      if (panel.classList.contains('is-minimized')) restorePanel();
+    });
+  }
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && panel.classList.contains('is-open')) closePanel();
+    if (e.key !== 'Escape' || !panel.classList.contains('is-open')) return;
+    if (panel.classList.contains('is-minimized')) closePanel();
+    else minimizePanel();
   });
 
   if (clearBtn) {

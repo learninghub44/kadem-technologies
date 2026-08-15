@@ -44,8 +44,11 @@
   .k-ai-panel {
     right: var(--k-space-4);
     bottom: calc(var(--k-space-4) + 68px);
-    width: calc(100vw - 2 * var(--k-space-4));
-    height: min(560px, calc(100vh - 120px));
+    width: min(360px, calc(100vw - 2 * var(--k-space-4)));
+    max-width: min(360px, calc(100vw - 2 * var(--k-space-4)));
+    height: min(72dvh, 520px);
+    max-height: min(72dvh, 520px);
   }
+  .k-ai-panel.is-minimized { height: auto; max-height: none; width: auto; min-width: 220px; }
   .k-filters { gap: var(--k-space-2); }
 }
