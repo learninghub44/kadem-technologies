@@ -29,7 +29,7 @@
   color: var(--k-on-primary);
   box-shadow: var(--k-shadow-glow);
 }
-.k-btn--primary:hover { transform: translateY(-2px); background: var(--k-primary-strong); }
+.k-btn--primary:hover { transform: translateY(-2px); background: var(--k-primary-strong); color: #FFFFFF; }
 
 .k-btn--ghost {
   background: transparent;
