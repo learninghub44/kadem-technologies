@@ -243,6 +243,20 @@ PAGES = [
          desc="Terms and conditions for using the ZetuBiz website and services."),
 ]
 
+PAGES.extend([
+    dict(key="website-development", file="website-development.html", nav_key="services", title="Website Development | ZetuBiz", desc="Professional websites for businesses, organizations and individuals."),
+    dict(key="web-applications", file="web-applications.html", nav_key="services", title="Web Applications | ZetuBiz", desc="Custom web applications built around specific business requirements."),
+    dict(key="e-commerce", file="e-commerce.html", nav_key="services", title="E Commerce | ZetuBiz", desc="Online stores and digital commerce solutions."),
+    dict(key="business-systems", file="business-systems.html", nav_key="services", title="Business Systems | ZetuBiz", desc="Digital systems that help businesses manage everyday operations."),
+    dict(key="mobile-applications", file="mobile-applications.html", nav_key="services", title="Mobile Applications | ZetuBiz", desc="Mobile experiences designed around customer and business needs."),
+    dict(key="ai-automation", file="ai-automation.html", nav_key="services", title="AI and Automation | ZetuBiz", desc="Practical AI and automation for repetitive business workflows."),
+    dict(key="domain-registration", file="domain-registration.html", nav_key="services", title="Domain Registration | ZetuBiz", desc="Domain registration, setup and management."),
+    dict(key="website-maintenance", file="website-maintenance.html", nav_key="services", title="Website Maintenance | ZetuBiz", desc="Ongoing updates, improvements and technical maintenance."),
+    dict(key="technical-support", file="technical-support.html", nav_key="services", title="Technical Support | ZetuBiz", desc="Technical assistance for websites, applications and digital products."),
+    dict(key="third-party-solutions", file="third-party-solutions.html", nav_key="services", title="Third Party Solutions | ZetuBiz", desc="Solutions involving external platforms, services and integrations."),
+    dict(key="digital-integrations", file="digital-integrations.html", nav_key="services", title="Digital Integrations | ZetuBiz", desc="Connect business platforms, APIs and digital services."),
+])
+
 def main():
     os.makedirs(PUBLIC_DIR, exist_ok=True)
     for page in PAGES:
@@ -261,7 +275,7 @@ def main():
             title=page["title"],
             description=page["desc"],
             canonical_path="/" if page["key"] == "index" else f"/{page['file']}",
-            active_key=page["key"],
+            active_key=page.get("nav_key", page["key"]),
             content=content,
             extra_head=extra_head,
             extra_scripts=extra_scripts,
