@@ -84,9 +84,7 @@ async function handleAI(request, env) {
     return jsonResponse({ error: 'rate_limited', message: 'Too many requests. Please wait a moment and try again.' }, 429, cors);
   }
 
-  if (!env.GROQ_API_KEY) {
-    return jsonResponse({ error: 'not_configured', message: 'Kadem AI is not configured yet.' }, 503, cors);
-  }
+  if (!env.GROQ_API_KEY) return aiUnavailable(cors);
 
   let body;
   try {
@@ -129,7 +127,11 @@ async function handleAI(request, env) {
     );
     // Select only a general-purpose chat model that Groq currently reports active.
     const candidates = ['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'];
-    const model = candidates.find((id) => available.has(id));
+    const preferred = candidates.find((id) => available.has(id));
+    const fallback = [...available]
+      .filter((id) => !/(embed|guard|whisper|speech|audio|tts|transcri|moderation|safeguard|rerank)/i.test(id))
+      .sort((a, b) => a.localeCompare(b))[0];
+    const model = preferred || fallback;
     if (!model) {
       console.error('No supported chat model found in Groq active model list.');
       return aiUnavailable(cors);
