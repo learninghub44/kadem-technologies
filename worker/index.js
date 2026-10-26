@@ -111,6 +111,30 @@ async function handleAI(request, env) {
   const groqMessages = [{ role: 'system', content: SYSTEM_PROMPT }, ...cleaned];
 
   try {
+    // Discover Groq's live model catalogue so retired IDs are not blindly used.
+    const modelRes = await fetch('https://api.groq.com/openai/v1/models', {
+      headers: { Authorization: `Bearer ${env.GROQ_API_KEY}` },
+      signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined
+    });
+    if (!modelRes.ok) {
+      console.error('Groq model discovery failed', modelRes.status);
+      return aiUnavailable(cors);
+    }
+
+    const modelData = await modelRes.json();
+    const available = new Set(
+      (Array.isArray(modelData.data) ? modelData.data : [])
+        .map((item) => item && item.id)
+        .filter((id) => typeof id === 'string')
+    );
+    // Select only a general-purpose chat model that Groq currently reports active.
+    const candidates = ['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'];
+    const model = candidates.find((id) => available.has(id));
+    if (!model) {
+      console.error('No supported chat model found in Groq active model list.');
+      return aiUnavailable(cors);
+    }
+
     const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -118,44 +142,51 @@ async function handleAI(request, env) {
         Authorization: `Bearer ${env.GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        // openai/gpt-oss-20b is a reasoning model — it can silently return
-        // empty `content` when its token budget gets consumed by internal
-        // reasoning before it writes the actual answer. For a straightforward
-        // support assistant, a non-reasoning model is more reliable.
-        model: 'llama-3.3-70b-versatile',
+        model,
         messages: groqMessages,
         temperature: 0.4,
         max_completion_tokens: 500
       }),
-      // Guard against a hung upstream request.
       signal: AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined
     });
 
     if (!groqRes.ok) {
-      // Logged server-side only (visible in `wrangler tail`), never sent to the browser.
       const errText = await groqRes.text().catch(() => '');
       console.error('Groq API error', groqRes.status, errText);
-      return jsonResponse({ error: 'upstream_error', message: 'Kadem AI could not process that right now.' }, 502, cors);
+      if (groqRes.status === 400 || groqRes.status === 404) return aiUnavailable(cors);
+      return jsonResponse({
+        error: 'upstream_error',
+        message: 'The AI assistant is temporarily unavailable. Contact support@christech.co.ke or WhatsApp +254 701 059 192.'
+      }, 502, cors);
     }
 
     const data = await groqRes.json();
     const reply = data?.choices?.[0]?.message?.content?.trim()
       || data?.choices?.[0]?.message?.reasoning?.trim();
-
     if (!reply) {
       console.error('Groq returned no usable content', JSON.stringify(data).slice(0, 500));
-      return jsonResponse({ error: 'empty_reply' }, 502, cors);
+      return jsonResponse({
+        error: 'empty_reply',
+        message: 'The AI assistant could not reply. Contact support@christech.co.ke or WhatsApp +254 701 059 192.'
+      }, 502, cors);
     }
-
     return jsonResponse({ reply }, 200, cors);
   } catch (err) {
-    return jsonResponse({ error: 'server_error', message: 'Kadem AI is temporarily unavailable.' }, 500, cors);
+    console.error('Groq AI request failed', err && err.message ? err.message : 'unknown error');
+    return aiUnavailable(cors);
   }
 }
 
 /* ================================================================
    /api/contact — validated, rate-limited enquiry delivery
    ================================================================ */
+function aiUnavailable(cors) {
+  return jsonResponse({
+    error: 'ai_unavailable',
+    message: 'Our AI assistant is temporarily unavailable. Please contact ZetuBiz at support@christech.co.ke or WhatsApp +254 701 059 192.'
+  }, 503, cors);
+}
+
 async function handleContact(request, env) {
   const cors = corsHeaders(request, env);
   if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
