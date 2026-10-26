@@ -1,7 +1,7 @@
 # Kadem Technologies — christech.co.ke
 
 Static HTML/CSS/JS website with a Cloudflare Worker backend for
-`/api/ai` (Kadem AI, via Groq) and `/api/contact`.
+`/api/ai` (ZetuBiz AI, using Groq’s live model catalogue) and `/api/contact`.
 
 ## Project structure
 
@@ -59,7 +59,7 @@ npx wrangler secret put GROQ_API_KEY
 npx wrangler secret put RESEND_API_KEY   # or your preferred email API
 ```
 
-`GROQ_API_KEY` powers the Kadem AI assistant (`/api/ai`).
+`GROQ_API_KEY` powers the ZetuBiz AI assistant (`/api/ai`). The Worker checks Groq’s live `/models` endpoint before each chat request and uses a supported model that Groq currently reports as active. If no supported model is available, the assistant directs visitors to support email and WhatsApp.
 `RESEND_API_KEY` is used by `/api/contact` to deliver enquiries to
 `support@christech.co.ke` — swap the provider in `worker/index.js` →
 `deliverEnquiry()` if you use something other than Resend.
