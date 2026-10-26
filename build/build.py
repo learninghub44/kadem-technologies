@@ -113,6 +113,7 @@ FOOTER_HTML = """
           </ul>
         </div>
       </div>
+      <div class="k-footer__pricing"><span><strong>Starter websites from KES 15,000</strong></span><span>Hosting from <strong>KES 2,500/month</strong></span><a href="/contact.html">Request a quote</a></div>
       <div class="k-footer__bottom">
         <span>&copy; 2026 ZetuBiz. All rights reserved.</span>
         <div class="k-footer__legal">
