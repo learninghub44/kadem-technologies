@@ -35,15 +35,9 @@
     localStorage.setItem(THEME_KEY, next);
   });
 
-  /* ---------- Sticky header background ---------- */
+  /* ---------- Header scroll state ---------- */
+  /* The header intentionally scrolls with the document; it is not sticky. */
   var header = document.querySelector('.k-header');
-  function onScroll() {
-    if (!header) return;
-    if (window.scrollY > 8) header.classList.add('is-scrolled');
-    else header.classList.remove('is-scrolled');
-  }
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
 
   /* ---------- Mobile nav ---------- */
   var menuToggle = document.querySelector('.k-menu-toggle');
