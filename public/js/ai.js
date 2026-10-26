@@ -222,7 +222,7 @@
         return res.json();
       })
       .then(function (data) {
-        var reply = (data && data.reply) || 'I do not have that information right now — please contact Kadem Technologies directly on WhatsApp at +254 701 059 192 or email support@christech.co.ke.';
+        var reply = (data && data.reply) || 'The AI assistant is temporarily unavailable. Please contact ZetuBiz on WhatsApp at +254 701 059 192 or email support@christech.co.ke.';
         history.push({ role: 'assistant', content: reply });
         saveHistory();
         typingEl.remove();
@@ -231,7 +231,7 @@
       })
       .catch(function () {
         typingEl.remove();
-        renderMessage('assistant', 'Kadem AI is temporarily unavailable. Please contact Kadem Technologies directly on WhatsApp at +254 701 059 192 or email support@christech.co.ke.', true);
+        renderMessage('assistant', 'The AI assistant is temporarily unavailable. Please contact ZetuBiz on WhatsApp at +254 701 059 192 or email support@christech.co.ke.', true);
         playReplySound();
       })
       .finally(function () {

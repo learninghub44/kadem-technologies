@@ -75,49 +75,53 @@ FOOTER_HTML = """
           <a class="k-brand" href="/index.html" aria-label="ZetuBiz home">
             <img class="k-brand__logo" src="/assets/logo/zetubiz-logo-horizontal.svg" alt="ZetuBiz Business Solutions" width="160" height="45">
           </a>
-          <p>Professional digital services, software solutions, web hosting and technology support for businesses in Kenya and beyond.</p>
+          <p>Digital services, business software, web hosting and practical technology support for businesses in Kenya and beyond.</p>
+          <a class="k-footer__cta" href="/contact.html">Talk to our team <span aria-hidden="true">→</span></a>
         </div>
-        <div class="k-footer__col">
-          <h4>Company</h4>
+        <nav class="k-footer__col" aria-label="Explore ZetuBiz">
+          <h4>Explore</h4>
           <ul>
-            <li><a href="/about.html">About</a></li>
-            <li><a href="/services.html">Services</a></li>
+            <li><a href="/about.html">About Us</a></li>
+            <li><a href="/services.html">All Services</a></li>
             <li><a href="https://academy.christech.co.ke" target="_blank" rel="noopener noreferrer">ZetuBiz Academy</a></li>
-            <li><a href="/projects.html">Projects</a></li>
-            <li><a href="/contact.html">Contact</a></li>
+            <li><a href="/projects.html">Our Projects</a></li>
+            <li><a href="/contact.html">Contact Us</a></li>
           </ul>
-        </div>
-        <div class="k-footer__col">
-          <h4>Services</h4>
+        </nav>
+        <nav class="k-footer__col k-footer__services" aria-label="Our services">
+          <h4>Our Services</h4>
           <ul>
+            <li><a href="/website-development.html">Website Development</a></li>
+            <li><a href="/web-applications.html">Web Applications</a></li>
+            <li><a href="/e-commerce.html">E-Commerce</a></li>
+            <li><a href="/business-systems.html">Business Systems</a></li>
+            <li><a href="/mobile-applications.html">Mobile Applications</a></li>
+            <li><a href="/ai-automation.html">AI and Automation</a></li>
+            <li><a href="/domain-registration.html">Domain Registration</a></li>
             <li><a href="/hosting.html">Web Hosting</a></li>
-            <li><a href="/services.html#website-development">Website Development</a></li>
-            <li><a href="/services.html#web-applications">Web Applications</a></li>
-            <li><a href="/services.html#e-commerce">E-Commerce</a></li>
-            <li><a href="/services.html#business-systems">Business Systems</a></li>
-            <li><a href="/services.html#ai-automation">AI &amp; Automation</a></li>
-            <li><a href="/services.html#third-party-solutions">Third-Party Solutions</a></li>
           </ul>
-        </div>
-        <div class="k-footer__col k-footer__col--support">
-          <h4>Support</h4>
+        </nav>
+        <div class="k-footer__col k-footer__support">
+          <h4>Help and Support</h4>
           <ul>
-            <li><a href="/services.html#website-maintenance">Maintenance</a></li>
-            <li><a href="/services.html#technical-support">Technical Support</a></li>
-            <li><a href="/hosting.html">Hosting Support</a></li>
+            <li><a href="/website-maintenance.html">Website Maintenance</a></li>
+            <li><a href="/technical-support.html">Technical Support</a></li>
+            <li><a href="/third-party-solutions.html">Third-Party Solutions</a></li>
+            <li><a href="/digital-integrations.html">Digital Integrations</a></li>
           </ul>
-          <h4 style="margin-top:24px;">Contact</h4>
+          <h4 class="k-footer__contact-heading">Contact</h4>
           <ul>
             <li><a href="tel:+254701059192">+254 701 059 192</a></li>
             <li><a href="mailto:support@christech.co.ke">support@christech.co.ke</a></li>
+            <li><a href="https://wa.me/254701059192" target="_blank" rel="noopener noreferrer">WhatsApp Us</a></li>
           </ul>
         </div>
       </div>
       <div class="k-footer__bottom">
-        <span>&copy; 2026 ZetuBiz. All rights reserved.</span>
+        <span>© 2026 ZetuBiz. All rights reserved.</span>
         <div class="k-footer__legal">
           <a href="/privacy.html">Privacy Policy</a>
-          <a href="/terms.html">Terms &amp; Conditions</a>
+          <a href="/terms.html">Terms and Conditions</a>
         </div>
       </div>
     </div>

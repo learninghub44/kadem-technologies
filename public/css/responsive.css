@@ -4,7 +4,8 @@
 
 @media (max-width: 1080px) {
   .k-grid--4 > * { flex-basis: calc(33.333% - var(--k-space-5)); }
-  .k-footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--k-space-6); }
+  .k-footer__grid { grid-template-columns: minmax(180px, 1.2fr) 1fr 1fr; gap: var(--k-space-6); }
+  .k-footer__brand { grid-column: 1 / -1; }
 }
 
 @media (max-width: 900px) {
@@ -37,8 +38,10 @@
   .k-cta-banner { padding: var(--k-space-6) var(--k-space-4); }
   .k-cta-banner__actions { flex-direction: column; }
   .k-cta-banner__actions .k-btn { width: 100%; }
-  .k-footer__grid { grid-template-columns: 1fr; gap: var(--k-space-5); }
+  .k-footer__grid { grid-template-columns: 1fr 1fr; gap: var(--k-space-6) var(--k-space-4); }
+  .k-footer__brand { grid-column: 1 / -1; }
   .k-footer__bottom { flex-direction: column; align-items: flex-start; }
+  .k-footer__legal { flex-wrap: wrap; }
   .k-float-whatsapp, .k-float-ai { right: var(--k-space-4); }
   .k-float-whatsapp { bottom: var(--k-space-4); }
   .k-float-ai { bottom: calc(var(--k-space-4) + 68px); }
