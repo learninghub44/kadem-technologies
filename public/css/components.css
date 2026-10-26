@@ -1,5 +1,5 @@
 /* ===========================================================
-   KADEM TECHNOLOGIES — COMPONENTS
+   ZETUBIZ — COMPONENTS
    =========================================================== */
 
 /* ---------- Buttons ---------- */
@@ -29,7 +29,7 @@
   color: var(--k-on-primary);
   box-shadow: var(--k-shadow-glow);
 }
-.k-btn--primary:hover { transform: translateY(-2px); background: var(--k-primary-strong); }
+.k-btn--primary:hover { transform: translateY(-2px); background: var(--k-primary-strong); color: #FFFFFF; }
 
 .k-btn--ghost {
   background: transparent;
@@ -67,8 +67,8 @@
   height: var(--k-nav-height);
   display: flex;
   align-items: center;
-  background: transparent;
-  border-bottom: 1px solid transparent;
+  background: var(--k-surface);
+  border-bottom: 1px solid var(--k-border);
   transition: background var(--k-duration) var(--k-ease), border-color var(--k-duration) var(--k-ease), box-shadow var(--k-duration) var(--k-ease);
 }
 .k-header.is-scrolled,
@@ -96,6 +96,7 @@
   color: var(--k-ink);
 }
 .k-brand__mark { width: 34px; height: 34px; flex-shrink: 0; }
+.k-brand__logo { display: block; width: clamp(132px, 13vw, 164px); height: auto; max-height: 46px; object-fit: contain; flex-shrink: 0; }
 .k-brand small {
   display: block;
   font-family: var(--k-font-mono);
@@ -269,8 +270,8 @@
 }
 .k-service-card:hover, .k-service-card:focus-within {
   transform: translateY(-6px);
-  background: var(--k-primary);
-  border-color: var(--k-primary);
+  background: var(--k-primary-strong);
+  border-color: var(--k-primary-strong);
   box-shadow: var(--k-shadow-lg);
 }
 .k-service-card__illustration {
@@ -571,7 +572,7 @@
 
 /* ---------- Final CTA banner ---------- */
 .k-cta-banner {
-  background: var(--k-primary);
+  background: var(--k-primary-strong);
   border-radius: var(--k-radius-lg);
   padding: var(--k-space-8) var(--k-space-7);
   text-align: center;
@@ -740,7 +741,7 @@
   position: relative;
   width: 58px; height: 58px;
   border-radius: 50%;
-  background: var(--k-primary);
+  background: var(--k-primary-strong);
   display: flex; align-items: center; justify-content: center;
   box-shadow: var(--k-shadow-glow);
   border: none;
@@ -806,7 +807,7 @@
   align-items: center;
   gap: var(--k-space-3);
   padding: var(--k-space-4) var(--k-space-5);
-  background: var(--k-primary);
+  background: var(--k-primary-strong);
   color: #fff;
 }
 .k-ai-panel__mark { width: 30px; height: 30px; flex-shrink: 0; }
@@ -893,7 +894,7 @@
 .k-ai-send {
   width: 40px; height: 40px;
   border-radius: 50%;
-  background: var(--k-primary);
+  background: var(--k-primary-strong);
   color: #fff;
   border: none;
   cursor: pointer;

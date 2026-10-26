@@ -1,5 +1,5 @@
 /* ===========================================================
-   KADEM TECHNOLOGIES — RESPONSIVE
+   ZETUBIZ — RESPONSIVE
    =========================================================== */
 
 @media (max-width: 1080px) {
@@ -9,6 +9,7 @@
 
 @media (max-width: 900px) {
   .k-nav__list, .k-header__actions .k-btn { display: none; }
+  .k-brand__logo { width: clamp(124px, 34vw, 158px); max-height: 42px; }
   .k-menu-toggle { display: flex; }
   .k-hero__grid { grid-template-columns: 1fr; }
   .k-hero__visual { max-width: 340px; margin-inline: auto; order: -1; }

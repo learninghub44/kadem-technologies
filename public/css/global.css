@@ -1,5 +1,5 @@
 /* ===========================================================
-   KADEM TECHNOLOGIES — GLOBAL TOKENS & BASE
+   ZETUBIZ — GLOBAL TOKENS & BASE
    Signature motif: "Signal" — radiating arcs from a central
    mark, used in the hero, favicon, dividers and loading states.
    =========================================================== */
@@ -15,17 +15,17 @@
   --k-border: #E2E6ED;
   --k-border-strong: #CBD2DE;
 
-  --k-primary: #1B4B8F;      /* Kadem deep signal blue */
-  --k-primary-strong: #123564;
-  --k-primary-soft: #E9F0FA;
-  --k-accent: #E08A34;       /* warm signal amber */
-  --k-accent-strong: #C36F1F;
-  --k-accent-soft: #FBEEDD;
+  --k-primary: #00A889;      /* ZetuBiz teal */
+  --k-primary-strong: #063F34;
+  --k-primary-soft: #E3F7F2;
+  --k-accent: #F6AD00;       /* ZetuBiz amber */
+  --k-accent-strong: #B78100;
+  --k-accent-soft: #FFF4D6;
 
   --k-success: #1E8E63;
   --k-danger: #C43D3D;
 
-  --k-on-primary: #FFFFFF;
+  --k-on-primary: #063F34;
   --k-on-accent: #171008;
 
   /* ---- Typography ---- */
@@ -65,7 +65,7 @@
   --k-shadow-sm: 0 1px 2px rgba(16, 21, 31, 0.06);
   --k-shadow-md: 0 8px 24px rgba(16, 21, 31, 0.08);
   --k-shadow-lg: 0 20px 48px rgba(16, 21, 31, 0.12);
-  --k-shadow-glow: 0 12px 32px rgba(27, 75, 143, 0.18);
+  --k-shadow-glow: 0 10px 28px rgba(0, 168, 137, 0.18);
 
   --k-container: 1180px;
   --k-nav-height: 76px;
@@ -86,20 +86,20 @@
   --k-border: #26303F;
   --k-border-strong: #37455A;
 
-  --k-primary: #6FA1E0;
-  --k-primary-strong: #9AC0EE;
-  --k-primary-soft: #1B2A3E;
-  --k-accent: #EFA354;
-  --k-accent-strong: #F5BC7F;
-  --k-accent-soft: #2E2416;
+  --k-primary: #35C8AC;
+  --k-primary-strong: #00A889;
+  --k-primary-soft: #17352F;
+  --k-accent: #F6AD00;
+  --k-accent-strong: #FFD166;
+  --k-accent-soft: #352B12;
 
-  --k-on-primary: #0E141D;
+  --k-on-primary: #063F34;
   --k-on-accent: #171008;
 
   --k-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --k-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
   --k-shadow-lg: 0 24px 56px rgba(0, 0, 0, 0.45);
-  --k-shadow-glow: 0 12px 40px rgba(111, 161, 224, 0.22);
+  --k-shadow-glow: 0 12px 36px rgba(0, 168, 137, 0.2);
 
   color-scheme: dark;
 }
